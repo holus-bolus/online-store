@@ -20,7 +20,7 @@ export class HeaderComponent {
 
     this.itemsQuantity = cart.items
       .map((item) => item.quantity)
-      .reduce((prev, curent) => prev + curent, 0);
+      .reduce((prev, current) => prev + current, 0);
   }
 
   constructor(private cartService: CartService) {}
