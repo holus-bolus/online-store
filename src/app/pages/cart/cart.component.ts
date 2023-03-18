@@ -1,25 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Cart, CartItem } from '../../models/cart.model';
+import { Cart, CartItem } from 'src/app/models/cart.model';
+
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
-  cart: Cart = {
-    items: [
-      {
-        product: 'https://i.insider.com/55a966f3371d22c6178b62ed?width=700',
-        name: 'Sneakers',
-        price: 250,
-        quantity: 1,
-        id: 1,
-      },
-    ],
-  };
-  dataSource: Array<CartItem> = [];
-  displayedColumns: Array<string> = [
+  cart: Cart = { items: [] };
+  displayedColumns: any = [
     'product',
     'name',
     'price',
@@ -27,10 +17,18 @@ export class CartComponent implements OnInit {
     'total',
     'action',
   ];
+  dataSource: CartItem[] = [];
+  cartSubscription: Subscription | undefined;
 
   constructor() {}
 
-  ngOnInit(): void {
-    this.dataSource = this.cart.items;
+  ngOnInit(): void {}
+
+  getTotal(items: Array<CartItem>): number {
+    return items
+      .map((item) => {
+        return item.price * item.quantity;
+      })
+      .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
   }
 }
